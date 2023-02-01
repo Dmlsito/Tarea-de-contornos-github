@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, duplicate_ignore, prefer_const_constructors, curly_braces_in_flow_control_structures
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,14 @@ double posicionBala = alturaPantalla * 0.75;
 String bala = " ";
 
 Timer? disparo;
+
+
 bool disparoBala = false;
+bool desaparecerLata = false; 
+  Random randomAltura = Random();
+  double topLata = randomAltura.nextDouble() * 500.0;
+  Random randomDerecha = Random(    );
+  double anchoLata = randomDerecha.nextDouble() * 300;
 
 class Juego extends State<StateMiniJuego> {
   @override
@@ -57,18 +65,18 @@ class Juego extends State<StateMiniJuego> {
                 Container(
                     margin: EdgeInsets.only(top: alturaPantalla * 0.9),
                     child: InkWell(
-                      child: Image.asset("assets/Derecha.png"),
+                      child: Image.asset("assets/Izquierda.png"),
                       onTap: () {
-                        moveRight();
+                        moveLeft();
                       },
                     )),
                 Container(
                     margin: EdgeInsets.only(
                         top: alturaPantalla * 0.9, left: anchoPantalla * 0.8),
                     child: InkWell(
-                      child: Image.asset("assets/Izquierda.png"),
+                      child: Image.asset("assets/Derecha.png"),
                       onTap: () {
-                        moveLeft();
+                        moveRight();
                       },
                     )),
                 AnimatedContainer(
@@ -91,9 +99,10 @@ class Juego extends State<StateMiniJuego> {
                     child: InkWell(
                       child: Image.asset("assets/diana.png"),
                       onTap: () {
-                        activarBala();
+                        !desaparecerLata ? activarBala(): null;
                       },
-                    ))
+                    )),
+                Container(child: !desaparecerLata ? containerLata(): null)
               ]),
             )));
   }
@@ -105,6 +114,17 @@ class Juego extends State<StateMiniJuego> {
     );
   }
 
+  Widget containerLata(){
+  
+    return Container(
+      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      width: 70,
+      height: 70,
+      margin: EdgeInsets.only(top: topLata, left: anchoLata),
+      child: Image.asset("assets/lata.png", fit: BoxFit.cover));
+      }
+      
+  
   double moveRight() {
     setState(() {
       moveToLeft = moveToLeft + 20;
@@ -128,8 +148,13 @@ class Juego extends State<StateMiniJuego> {
     disparo = Timer.periodic(Duration(milliseconds: 200), (timer) {
       setState(() {
         posicionBala -= 40;
+         if(posicionBala <= topLata && moveToLeftBullet.toInt() == posicionBala.toInt() ){
+            desaparecerLata = true;
+            disparoBala = false;
+          }
       });
-      if (posicionBala <= 50) posicionBala = alturaPantalla * 0.75;
+      if (posicionBala <= 10) posicionBala = alturaPantalla * 0.75; 
+     
     });
   }
 
