@@ -63,11 +63,12 @@ flutter:
   assets:
     - assets/Derecha.png
     - assets/diana.png
-    - assets/FondoMinijuego2.jpg
+    - assets/Fondo.gif
     - assets/Izquierda.png
     - assets/escopeta.png
     - assets/bala.png
     - assets/lata.png
+    - assets/zombie.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
